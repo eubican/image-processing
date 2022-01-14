@@ -2,7 +2,7 @@
 Created by eubican at 13.01.2022
 Project: Histogram Equalization
 """
-
+import sys
 import numpy as np
 import cv2 as cv
 import matplotlib.pyplot as plt
@@ -62,6 +62,9 @@ def create_enhanced_image(equalized, image):
 
 if __name__ == "__main__":
     img = cv.imread("resources/pic.png", 0)
+    if img is None:
+        print("Unable to load.")
+        sys.exit(0)
 
     hist = generate_histogram(img)
     cdf, cdf_min, cdf_max = cumulative_distribution(hist)
@@ -88,8 +91,8 @@ if __name__ == "__main__":
     axs[1].set_ylabel('Intensity')
 
     # save created figure
-    plt.savefig('resources/histograms.png', dpi=300)
+    plt.savefig('resources/outputs/histograms.png', dpi=300)
 
     # stacking images side-by-side
     res = np.hstack((img, enhanced_image))
-    cv.imwrite('resources/result.png', res)
+    cv.imwrite('resources/outputs/result.png', res)
